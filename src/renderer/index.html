@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' data: https://cdn.jsdelivr.net; img-src 'self' data:" />
+<title>CoExplorer</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+</head>
+<body>
+<div class="win" id="win">
+  <div class="canvas" id="canvas"><div class="world" id="world"></div></div>
+
+  <div class="titlebar">
+    <svg width="18" height="18" viewBox="0 0 26 26"><rect x="2" y="5" width="15" height="15" rx="4.5" style="fill:var(--ink)"/><rect x="9" y="2" width="15" height="15" rx="4.5" fill="#2f6bff" fill-opacity=".85"/></svg>
+    <span class="title">CoExplorer</span><span id="winsub"></span>
+    <div class="right">
+      <div class="mini" id="langSeg"><button data-l="ko" class="on">KO</button><button data-l="en">EN</button></div>
+      <button class="iconbtn" id="themeBtn"></button>
+    </div>
+  </div>
+
+  <aside class="side left" id="leftSide">
+    <div class="glass">
+      <div class="brand"><svg viewBox="0 0 26 26"><rect x="2" y="5" width="15" height="15" rx="4.5" style="fill:var(--ink)"/><rect x="9" y="2" width="15" height="15" rx="4.5" fill="#2f6bff" fill-opacity=".85"/></svg>CoExplorer</div>
+      <div class="connect"><div class="lbl"><b data-t="connect"></b><span id="connSub"></span></div><button class="switch" id="connSw"></button></div>
+      <div class="projbar"><select id="projSel"></select><button class="btn on" id="newSess"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span data-t="newSess"></span></button></div>
+      <button class="btn openclaude" id="openClaude"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16v12H4zM7 10l3 2-3 2M12 15h5"/></svg><span id="openClaudeTx"></span></button>
+    </div>
+    <div class="glass panel grow">
+      <div class="seg" id="leftSeg"><button class="on" data-t="tabSessions" data-k="s"></button><button data-t="tabPC" data-k="pc"></button></div>
+      <div class="segdesc" id="segDesc"></div>
+      <label class="follow" id="followRow"><input type="checkbox" id="followCb" checked /><span data-t="follow"></span></label>
+      <label class="allsess" id="allRow"><input type="checkbox" id="allCb" /><span data-t="allSess"></span></label>
+      <ul class="rows" id="leftList"></ul>
+    </div>
+    <div class="glass panel">
+      <div class="ph"><h3 data-t="agents"></h3></div>
+      <ul class="rows" id="agents" style="margin:0"></ul>
+    </div>
+  </aside>
+  <button class="dock l glass" id="dockL"></button>
+
+  <div class="topbar glass" id="topbar">
+    <div class="seg" id="viewSeg"><button class="on" data-v="map" data-t="tabMap"></button><button data-v="topic" data-t="tabTopic"></button><button data-v="wiki" data-t="tabWiki"></button></div>
+    <div class="proj"><b id="projName">—</b><span id="projPath"></span></div>
+    <div class="tools">
+      <button class="btn" id="pathBtn"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="18" r="2"/><circle cx="19" cy="6" r="2"/><path d="M7 17c5-1 3-9 10-10"/></svg><span data-t="lastPath"></span></button>
+      <button class="btn" id="linksBtn"><svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg><span data-t="showLinks"></span></button>
+      <button class="btn icon" id="clearBtn" title="clear"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3"/></svg></button>
+      <button class="btn icon" id="fitBtn" title="fit"><svg class="i" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </div>
+  </div>
+
+  <div class="emptyhint glass" id="emptyHint">
+    <div class="eh-ic"><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M12 11v5M9.5 13.5h5"/></svg></div>
+    <h2 data-t="emptyT"></h2><p data-t="emptyX"></p>
+    <button class="btn on" id="emptyOpenPC" data-t="emptyBtn"></button>
+  </div>
+  <div class="lenspill" id="lensPill"></div>
+  <div class="lenspill linkpill" id="linkPill"></div>
+  <div class="dropzone" id="dropZone"><span data-t="dropHere"></span></div>
+  <div class="soon glass" id="soon"><div class="orb" id="soonOrb"></div><h2 id="soonT"></h2><p id="soonX"></p><button class="btn on" id="soonBtn"></button></div>
+  <div class="wikiv" id="wikiv">
+    <div class="glass wlist"><div class="ph"><div class="seg wmseg" id="wmSeg"></div></div><ul class="rows" id="wikiList" style="margin:0"></ul></div>
+    <div class="glass wpage" id="wikiPage"></div>
+    <div class="glass wside" id="wikiSide"></div>
+  </div>
+  <div class="itoast glass" id="itoast"><span class="spin" id="itSpin"></span><span id="itText"></span><button class="btn" id="itStop" data-t="stop"></button></div>
+
+  <aside class="side right" id="rightSide">
+    <div class="glass panel" style="flex:0 1 auto;min-height:0">
+      <div class="ph"><h3 data-t="selection"></h3></div>
+      <div class="selscroll" id="selBox"></div>
+      <div class="acts" id="acts">
+        <button class="act" data-a="pin"><svg class="i" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8"/></svg><span data-t="aPin"></span></button>
+        <button class="act" data-a="link"><svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg><span data-t="aLink"></span></button>
+        <button class="act" data-a="hide"><svg class="i" viewBox="0 0 24 24"><path d="M3 3l18 18M6.1 6.1A12.4 12.4 0 002 12c1 2.5 5 7 10 7a9.6 9.6 0 004-.9M9.9 5.1A9.8 9.8 0 0112 5c5 0 9 4.5 10 7a12.6 12.6 0 01-3 4"/></svg><span data-t="aHide"></span></button>
+        <button class="act" data-a="lock"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><span data-t="aLock"></span></button>
+      </div>
+      <button class="btn reveal" id="revealBtn"><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span data-t="aReveal"></span></button>
+      <p class="hint" id="selHint"></p>
+    </div>
+    <div class="glass panel guide" id="guide">
+      <div class="ph" id="guideHead"><span class="cv" id="guideCv">›</span><h3 data-t="guide"></h3><span class="sum" id="guideSum"></span></div>
+      <div class="gbody">
+        <ul class="rules" id="rules"></ul>
+        <button class="rawtog" id="rawTog"><svg class="i" viewBox="0 0 24 24"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3"/></svg><span id="rawLbl"></span></button>
+        <pre class="raw" id="raw"></pre>
+      </div>
+      <p class="gsub" data-t="guideSub"></p>
+    </div>
+    <div class="glass panel grow"><div class="ph"><h3 data-t="activity"></h3></div><ul class="feed" id="feed"></ul></div>
+  </aside>
+  <button class="dock r glass" id="dockR"></button>
+
+  <div class="legend glass" id="legend"></div>
+  <button class="demobtn glass" id="demoBtn"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg><span data-t="demo"></span></button>
+  <div class="zoom glass" id="zoomBox"><button id="zin">+</button><button id="zout">−</button><div class="zl" id="zl">100%</div></div>
+</div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
